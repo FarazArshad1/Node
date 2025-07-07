@@ -4,7 +4,7 @@
   "main": "index.middleware.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon application.middleware.js"
+    "start": "nodemon error.middleware.js"
   },
   "author": "",
   "license": "ISC",
