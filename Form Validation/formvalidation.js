@@ -12,7 +12,12 @@ var validationRegistration = [
     .notEmpty()
     .withMessage("Username is required.")
     .isLength({ min: 3 })
-    .withMessage("Username must be at least 3 characters long."),
+    .withMessage("Username must be at least 3 characters long.")
+    // Custom Validation method, where name 'admin' is not allowed
+    .custom(value =>{
+      if (value === 'admin'){
+        throw new Error("Username 'admin' is not allowed")
+      }}),
   body("useremail").isEmail().withMessage("Not a valid Email").normalizeEmail(),
   body("userpass")
     .isLength({ min: 5, max: 15 })
@@ -33,10 +38,7 @@ app.get("/myform", (req, res) => {
 
 app.post("/saveform", validationRegistration, (req, res) => {
   const error = validationResult(req);
-  if (error.isEmpty()) {
-    res.send(req.body);
-  }
-  res.render("myform", { error: error.array() });
+  res.send(error)
 });
 
 app.listen(3000, () => {
