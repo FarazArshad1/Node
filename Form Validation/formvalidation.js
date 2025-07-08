@@ -17,7 +17,12 @@ var validationRegistration = [
     .custom(value =>{
       if (value === 'admin'){
         throw new Error("Username 'admin' is not allowed")
-      }}),
+      }
+      return true
+    })
+    .customSanitizer(value =>{
+      value.toLowerCase()
+    }),
   body("useremail").isEmail().withMessage("Not a valid Email").normalizeEmail(),
   body("userpass")
     .isLength({ min: 5, max: 15 })
