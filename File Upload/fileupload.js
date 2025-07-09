@@ -39,20 +39,35 @@ app.get("/", (req, res) => {
   res.render("myform");
 });
 
-app.post("/submitform", upload.array("userfile", 3), (req, res) => {
-  if (!req.files || req.files.length == 0) {
-    return res.status(400).send(`No files uploaded.`);
+// app.post("/submitform", upload.array("userfile", 3), (req, res) => {
+//   if (!req.files || req.files.length == 0) {
+//     return res.status(400).send(`No files uploaded.`);
+//   }
+//   res.send(req.files.map((file) => file));
+// });
+
+app.post(
+  "/submitform",
+  upload.fields([
+    { name: "userfile", maxCount: 1 },
+    { name: "userdocuments", maxCount: 3 },
+  ]),
+  (req, res) => {
+    if (!req.files || req.files.length == 0) {
+      return res.status(400).send(`No files uploaded.`);
+    }
+    res.send(req.files)
   }
-  res.send(req.files.map((file) => file));
-});
+);
 
 const multerErrorHandling = (error, req, res, next) => {
   if (error instanceof multer.MulterError) {
-    if (error.code == 'LIMIT_UNEXPECTED_FILE')
-    {
-      return res.status(400).send(`Error : Too many files uploaded`)
+    if (error.code == "LIMIT_UNEXPECTED_FILE") {
+      return res.status(400).send(`Error : Too many files uploaded`);
     }
-    return res.status(400).send(`Multer Error: ${error.message} : ${error.code}`);
+    return res
+      .status(400)
+      .send(`Multer Error: ${error.message} : ${error.code}`);
   } else if (error) {
     return res.status(500).send(`Something Went Wrong : ${error.message}`);
   }
