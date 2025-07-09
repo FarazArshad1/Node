@@ -40,8 +40,22 @@ app.get("/", (req, res) => {
 });
 
 app.post("/submitform", upload.single("userfile"), (req, res) => {
+  if (!req.files || req.file.length == 0) {
+    return res.status(400).send(`No files uploaded.`);
+  }
   res.send(req.file.filename);
 });
+
+const multerErrorHandling = (error, req, res, next) => {
+  if (error instanceof multer.MulterError) {
+    return res.status(400).send(`Multer Error: ${error.message}`);
+  } else if (error) {
+    return res.status(500).send(`Something Went Wrong : ${error.message0}`);
+  }
+  next();
+};
+
+app.use(multerErrorHandling);
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
