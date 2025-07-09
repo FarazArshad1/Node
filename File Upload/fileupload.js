@@ -39,18 +39,22 @@ app.get("/", (req, res) => {
   res.render("myform");
 });
 
-app.post("/submitform", upload.single("userfile"), (req, res) => {
-  if (!req.files || req.file.length == 0) {
+app.post("/submitform", upload.array("userfile", 3), (req, res) => {
+  if (!req.files || req.files.length == 0) {
     return res.status(400).send(`No files uploaded.`);
   }
-  res.send(req.file.filename);
+  res.send(req.files.map((file) => file));
 });
 
 const multerErrorHandling = (error, req, res, next) => {
   if (error instanceof multer.MulterError) {
-    return res.status(400).send(`Multer Error: ${error.message}`);
+    if (error.code == 'LIMIT_UNEXPECTED_FILE')
+    {
+      return res.status(400).send(`Error : Too many files uploaded`)
+    }
+    return res.status(400).send(`Multer Error: ${error.message} : ${error.code}`);
   } else if (error) {
-    return res.status(500).send(`Something Went Wrong : ${error.message0}`);
+    return res.status(500).send(`Something Went Wrong : ${error.message}`);
   }
   next();
 };
