@@ -1,5 +1,6 @@
 import express from "express";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 
 const app = express();
 
@@ -8,6 +9,10 @@ const appSession = session({
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 1000 * 60 * 60 * 60 * 24 },
+  store: MongoStore.create({
+    mongoUrl: "mongodb://127.0.0.1:27017/sessiondb",
+    collectionName: "myssion", // (optional)
+  }),
 });
 
 app.use(appSession);
@@ -34,15 +39,14 @@ app.get("/get-username", (req, res) => {
   }
 });
 
-
-app.get('/destroy-session',(req, res)=>{
-    req.session.destroy((err)=>{
-        if(err){
-            res.status(500).send("Failed to destroy session")
-        }
-        res.send('<h1>Session destroyed Successfully</h1>')
-    })
-})
+app.get("/destroy-session", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      res.status(500).send("Failed to destroy session");
+    }
+    res.send("<h1>Session destroyed Successfully</h1>");
+  });
+});
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
