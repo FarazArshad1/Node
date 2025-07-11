@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/public/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/custom.css">
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .home-container {
+            max-width: 500px;
+            margin: 80px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 40px 32px 32px 32px;
+            text-align: center;
+        }
+        .home-title {
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #343a40;
+        }
+        .logout-btn {
+            margin-top: 28px;
+            width: 100%;
+            font-weight: 600;
+            padding: 10px 0;
+            font-size: 1.1rem;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <h2 class="home-title">Welcome to the Home Page</h2>
+        <p class="lead">You are successfully logged in.</p>
+        <form action="/logout" method="POST">
+            <button type="submit" class="btn btn-danger logout-btn">Logout</button>
+        </form>
+    </div>
+</body>
+</html>
