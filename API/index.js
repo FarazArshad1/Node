@@ -1,13 +1,15 @@
 import express from 'express'
-import mongoose from 'mongoose'
+import connectDB from './Config/database.js'
+import studentRoutes from './routes/students.routes.js'
+
+const PORT = process.env.PORT || 3000
 
 // create express app 
 const app = express()
+app.use('/api/students', studentRoutes)
 
-// mongodb connection
-mongoose.Connect('mongodb://localhost:27017/students-crud')
-.then(()=>console.log('Connected to Monogodb'))
-.catch(err => console.log(err))
+// Database connection
+connectDB()
 
 // parse application/x-www-form-urlencoded
 app.use(express.urlencoded({extended : false}))
@@ -15,12 +17,6 @@ app.use(express.urlencoded({extended : false}))
 // parse application/json
 app.use(express.json())
 
-
-app.post('/',(req, res)=>{
-    const data = req.body
-    res.send(`Hello ${data.name}`)
-})
-
-app.listen(3000,()=>{
-    console.log(``)
+app.listen(PORT,()=>{
+    console.log(`Started Serever at port http://localhost/${PORT}`)
 })
