@@ -147,8 +147,31 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 <script>
   const apiUrl = 'http://localhost:3000/api/students'
-  const data = await fetch(`${apiUrl}`)
-  console.log(data)
+  
+  // View All Students
+  async function fetchStudents(){
+    const res = await fetch(`${apiUrl}`)
+    const data = await res.json()
+    console.log(data)
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //   let currentPage = 1
 //   let currentSearch = ''
 

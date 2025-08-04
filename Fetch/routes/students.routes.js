@@ -1,9 +1,10 @@
-const express = require('express');
-const router = express.Router()
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
-const Student = require('../models/students.model')
+import express from 'express';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+import Student from '../models/students.model.js';
+
+const router = express.Router();
 
 const storage = multer.diskStorage({
   destination:(req, file, cb) => {
@@ -141,4 +142,4 @@ router.delete('/:id',async (req, res) => {
   }
 })
 
-module.exports = router
+export default router
